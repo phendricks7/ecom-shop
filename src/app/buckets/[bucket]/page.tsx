@@ -3,11 +3,15 @@ import Image from "next/image";
 import {Button} from "@/components/ui/button";
 import api from "@/api";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
-  const campaigns = await api.campaign.list();
+export default async function HomePage({ params }: {params: Promise<{ bucket: string }>}) {
 
+  const bucket = (await params).bucket;
+  const campaigns = await api.campaign.list(bucket);
+
+  console.log(campaigns);
+  
   return (
     <main className="flex-1">
       {campaigns.map((campaign, index) => (
